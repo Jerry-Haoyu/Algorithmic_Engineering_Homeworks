@@ -13,4 +13,4 @@ The topics include:
 - LLM Agent
 - And More
 
-The class is taught by *Elfarouk Harb*, advised by *Chandra Chekuri*, both from the TCS. 
+The class is taught by Professsor *Elfarouk Harb*, advised by Professor *Chandra Chekuri*, both from the TCS @ UIUC. 
