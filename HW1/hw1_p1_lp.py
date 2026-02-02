@@ -64,16 +64,27 @@ def enumerate_vertices(A, b, c):
     This must work for *arbitrary* 2D LPs, not just the example.
     """  
     m, n = A.shape
-    eqIdx = np.arange(m)
+    eqIdx = np.arange(m+2)
+    deltaA = np.array([[-1,0], [0, -1]])
+    A_ = np.vstack([A, deltaA])
+    b_ = np.append(b, [0,0])
+    print(b)
     pairs = it.combinations(eqIdx, 2)
     vertices = []
     for pair in pairs:
         idx1 = pair[0].item()
         idx2 = pair[1].item()
-        x = np.linalg.solve(A[[idx1,idx2]], b[[idx1, idx2]])
-        if ((x >= 0).all() and (A @ x >= 0).all()): #check feasiblity
-            vertices.append(x)
-    vertices = np.hstack(vertices)
+        try : 
+            x = np.linalg.solve(A_[[idx1,idx2]], b_[[idx1, idx2]])
+        except: 
+            continue 
+        finally :
+            if ((x >= 0).all() and (A_ @ x <= b_).all()): #check feasiblity
+                vertices.append(x)
+            
+        
+    print("vertices are", vertices)
+    vertices = np.vstack(vertices)
     best_x, best_obj = solve_with_gurobi(A, b, c)
     return vertices, best_x, best_obj
         
